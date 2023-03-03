@@ -11,23 +11,21 @@ class RandomChar extends Component {
         this.updateChar();
     }
     state = {
-        name: null,
-        desc: null,
-        thumbnail: null,
-        homepage: null,
-        wiki: null
+        char: {}
     }
 
     marvelService = new MarvelService();
+
+    onCharLoaded = char => {
+        this.setState({char})
+    };
 
     updateChar = () => {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
 
         this.marvelService
             .getCharacter(id)
-            .then(res => {
-                this.setState(res)
-            })
+            .then(this.onCharLoaded(res)) // запис 'res => this.onCharLoaded(res)' не обовязково писати, аргумент res по дефолту зберігаєтсья в then
     }
 
     render() {
