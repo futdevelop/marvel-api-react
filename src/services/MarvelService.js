@@ -14,7 +14,7 @@ class MarvelService {
 
 	getAllCharacters = async () => {
 		const res = await this.gerResource(`${this._apiBase}characters?limit=9&offset=210&${this._apiKey}`) //обєкт данних
-		return res.data.results.map(this._transformCharacter);
+		return res.data.results.map(this._transformCharacter); //повний запис - (item) => (this._transformCharacter(item))
 	}
 
 	getCharacter = async id => {
@@ -25,7 +25,7 @@ class MarvelService {
 	_transformCharacter = char => {
 		return {
 			name: char.name,
-			desc: char.description,
+			desc: char.description.length > 229 ? (`${char.description.slice(0, 229)}...`) : !char.description ? 'Description is not exist' : char.description,
 			thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
 			homepage: char.urls[0].url,
 			wiki: char.urls[1].url			
